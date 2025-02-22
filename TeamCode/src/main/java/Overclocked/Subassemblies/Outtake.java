@@ -2,6 +2,7 @@ package Overclocked.Subassemblies;
 
 import android.transition.Slide;
 
+import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,10 +22,14 @@ public class Outtake {
 
     public Servo armLeft; public Servo armRight; Servo wristLeft; Servo wristRight; Servo wristMid; Servo claw;
 
-    int armPose; int slidePose; boolean clawState;
+    int armPose; int slidePose; boolean clawState; boolean isInPullDown;
     boolean isReseted;
+
+    Timer sincePoseSwitch; Timer pulldownTimer;
     
     public Outtake(HardwareMap hardwareMap){
+        sincePoseSwitch = new Timer();
+        pulldownTimer = new Timer();
         hardwareInit(hardwareMap);
     }
 
@@ -75,8 +80,8 @@ public class Outtake {
 
         switch (pose){
             case (OuttakeSlidePose.INITIAL):
-                upperSlide.setTargetPosition(0);
-                bottomSlide.setTargetPosition(0);
+                upperSlide.setTargetPosition(-15);
+                bottomSlide.setTargetPosition(-15);
                 break;
             case (OuttakeSlidePose.SAMPLE_SCORE):
                 upperSlide.setTargetPosition(1300);
@@ -89,6 +94,10 @@ public class Outtake {
             case (OuttakeSlidePose.SPECIMEN_SCORE_AUTO):
                 upperSlide.setTargetPosition(600);
                 bottomSlide.setTargetPosition(600);
+                break;
+            case (OuttakeSlidePose.SWITCH):
+                upperSlide.setTargetPosition(75);
+                bottomSlide.setTargetPosition(75);
                 break;
         }
 
@@ -106,27 +115,28 @@ public class Outtake {
 
     public void setOuttakeArmPose(int pose){
         armPose = pose;
+        sincePoseSwitch.resetTimer();
 
         switch (pose){
             case OuttakeArmPose.TRANSFER:
-                armLeft.setPosition(0.8);
-                armRight.setPosition(0.8);
+                armLeft.setPosition(0.62);
+                armRight.setPosition(0.62);
 
-                wristRight.setPosition(0.1);
-                wristLeft.setPosition(0.1);
+                wristRight.setPosition(0);
+                wristLeft.setPosition(0);
 
-                wristMid.setPosition(0.213);
+                wristMid.setPosition(0.210);
 
                 setClawState(OuttakeArmPose.CLAW_OPEN);
                 break;
             case OuttakeArmPose.SPECIMEN_PICKUP:
-                armLeft.setPosition(0.81);
-                armRight.setPosition(0.81);
+                armLeft.setPosition(0.8);
+                armRight.setPosition(0.8);
 
                 wristRight.setPosition(0.5);
                 wristLeft.setPosition(0.5);
 
-                wristMid.setPosition(0.213);
+                wristMid.setPosition(0.210);
 
                 setClawState(OuttakeArmPose.CLAW_OPEN);
                 break;
@@ -139,8 +149,30 @@ public class Outtake {
 
                 wristMid.setPosition(0.323);
 
+//                setClawState(OuttakeArmPose.CLAW_CLOSE);
+                break;
+
+            case OuttakeArmPose.SAMPLE_SCORE:
+                armLeft.setPosition(0.4);
+                armRight.setPosition(0.4);
+
+                wristRight.setPosition(0.6);
+                wristLeft.setPosition(0.6);
+
+                wristMid.setPosition(0.323);
+
                 break;
         }
+    }
+
+    public void secureWrist(){
+        wristRight.setPosition(0.5);
+        wristLeft.setPosition(0.5);
+    }
+
+    public void deactivateSlides(){
+        upperSlide.setPower(0);
+        bottomSlide.setPower(0);
     }
 
     public void setClawState(boolean state){
@@ -161,12 +193,17 @@ public class Outtake {
         upperSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottomSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        setSlidePose(OuttakeSlidePose.INITIAL);
-
+        upperSlide.setTargetPosition(0);
+        bottomSlide.setTargetPosition(0);
     }
 
     public boolean canChangeSlidePose(){
-        return !bottomSlide.isBusy();
+        return Math.abs(bottomSlide.getCurrentPosition() - bottomSlide.getTargetPosition()) < OuttakeConstants.slide_pose_switch_tolerance;
+    }
+
+
+    public boolean canChangeSlidePoseTimed(){
+        return Math.abs(bottomSlide.getCurrentPosition() - bottomSlide.getTargetPosition()) < OuttakeConstants.slide_pose_switch_tolerance || sincePoseSwitch.getElapsedTimeSeconds() > 5;
     }
 
     public boolean isSlidePose(int pose){
@@ -180,6 +217,15 @@ public class Outtake {
         return (clawState == state);
     }
 
+    public void pullDownSpecimen(){
+        setSlidePose(OuttakeSlidePose.INITIAL);
+        secureWrist();
+
+        isInPullDown = true;
+
+        pulldownTimer.resetTimer();
+    }
+
 
     public void update(){
         if (!magSwitch.isPressed()) isReseted = false;
@@ -187,7 +233,16 @@ public class Outtake {
             slideEncoderReset();
             isReseted = true;
         }
+        if (canChangeSlidePose() && isSlidePose(OuttakeSlidePose.INITIAL)){
+            deactivateSlides();
+        }
+
+        if (isInPullDown && pulldownTimer.getElapsedTimeSeconds() > 0.2){
+           isInPullDown = false;
+           setOuttakeArmPose(OuttakeArmPose.SPECIMEN_PICKUP);
+        }
     }
+
 
 
 

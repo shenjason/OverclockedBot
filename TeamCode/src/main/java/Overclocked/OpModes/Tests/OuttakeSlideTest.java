@@ -8,19 +8,22 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
-@TeleOp(name = "OuttakeSlideTest", group = "Tests")
+
+
+/*
+
+ */
+@TeleOp(name = "OuttakeSlideTest(Outdated)", group = "Tests")
 public class OuttakeSlideTest extends LinearOpMode {
     DcMotor upperOuttakeSlide;
     DcMotor bottomOuttakeSlide;
-
-
     TouchSensor OuttakeSwitch;
 
     int upperSlidePos = 0; int bottomSlidePos = 0;
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         upperOuttakeSlide = hardwareMap.get(DcMotor.class, "UpperOutakeSlide");
         bottomOuttakeSlide = hardwareMap.get(DcMotor.class, "BottomOutakeSlide");
         OuttakeSwitch = hardwareMap.get(TouchSensor.class, "mag");

@@ -12,16 +12,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "ServoTest", group = "Tests")
 public class ServoTest extends LinearOpMode {
 
-
+    public static String REVERSED_SERVO_NAME = "";
+    public static String FORWARD_SERVO_NAME = "";
     public static float SERVO_POS;
     Servo axonServo; Servo copyServo;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
-        axonServo = hardwareMap.get(Servo.class, "Servo1");
+        axonServo = hardwareMap.get(Servo.class, REVERSED_SERVO_NAME);
         axonServo.setDirection(Servo.Direction.REVERSE);
-        copyServo = hardwareMap.get(Servo.class, "Servo2");
+        copyServo = hardwareMap.get(Servo.class, FORWARD_SERVO_NAME);
 
         waitForStart();
 
