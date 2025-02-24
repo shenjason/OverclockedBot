@@ -42,7 +42,7 @@ public class CameraDetectionTest extends OpMode {
 
 
         VisionPortal.Builder myVisionPortalBuilder;
-        intake = new Intake(hardwareMap, null);
+        intake = new Intake(hardwareMap, null, gamepad1);
         visionPortal = new VisionPortal.Builder().setCamera(hardwareMap.get(CameraName.class, "camera")).enableLiveView(true).build();
     }
 

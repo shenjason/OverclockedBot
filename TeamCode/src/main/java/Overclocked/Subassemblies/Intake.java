@@ -3,6 +3,7 @@ package Overclocked.Subassemblies;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -33,10 +34,14 @@ public class Intake {
 
     int override_auto_rotation;
 
-    public Intake(HardwareMap hardwareMap, Outtake outtake){
+    Gamepad gamepad;
+
+    public Intake(HardwareMap hardwareMap, Outtake outtake, Gamepad controller){
         hardwareInit(hardwareMap);
         pickupTimer = new Timer();
         transferTimer = new Timer();
+
+        gamepad = controller;
 
         linkedOuttake = outtake;
     }
@@ -50,6 +55,7 @@ public class Intake {
     void slideHardwareInit(HardwareMap hardwareMap){
         intakeSlide = hardwareMap.get(DcMotor.class, "intakeSlide");
 
+        intakeSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         slideEncoderReset();
@@ -78,7 +84,7 @@ public class Intake {
 
     public void slideEncoderReset(){
         intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (isSlideFree) intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -110,6 +116,11 @@ public class Intake {
 
     public void slideControl(double power){
         if (!isSlideFree) return;
+        if (intakeSlide.getCurrentPosition() > IntakeConstants.max_extension_pos) {
+            rumbleGamepad();
+            intakeSlide.setPower(0);
+            return;
+        }
         intakeSlide.setPower(power);
     }
 
@@ -131,7 +142,7 @@ public class Intake {
         isSlideFree = (slidePose == IntakeSlidePose.FREE);
         switch (pose){
             case (IntakeSlidePose.INITIAL):
-                intakeSlide.setTargetPosition(0);
+                intakeSlide.setTargetPosition(-25);
                 break;
             case (IntakeSlidePose.AUTO_PICKUP):
                 intakeSlide.setTargetPosition(400);
@@ -159,19 +170,19 @@ public class Intake {
 
         switch (pose){
             case (IntakeArmPose.INACTIVE):
-                armRight.setPosition(0);
-                armLeft.setPosition(0);
+                armRight.setPosition(0.1);
+                armLeft.setPosition(0.1);
 
-                wristLeft.setPosition(0.8);
-                wristRight.setPosition(0.8);
+                wristLeft.setPosition(0.83);
+                wristRight.setPosition(0.83);
 
                 wristMid.setPosition(0.484);
 
                 setClawState(IntakeArmPose.CLAW_OPEN);
                 break;
             case (IntakeArmPose.TRANSFER):
-                armRight.setPosition(0);
-                armLeft.setPosition(0);
+                armRight.setPosition(0.1);
+                armLeft.setPosition(0.1);
 
                 wristLeft.setPosition(1);
                 wristRight.setPosition(1);
@@ -181,8 +192,8 @@ public class Intake {
 //                setClawState(IntakeArmPose.CLAW_CLOSE);
                 break;
             case (IntakeArmPose.DETECTION):
-                armRight.setPosition(0.6);
-                armLeft.setPosition(0.6);
+                armRight.setPosition(0.7);
+                armLeft.setPosition(0.7);
 
                 wristLeft.setPosition(1);
                 wristRight.setPosition(1);
@@ -192,8 +203,8 @@ public class Intake {
 //                setClawState(IntakeArmPose.CLAW_OPEN);
                 break;
             case (IntakeArmPose.SAMPLE_PICKUP):
-                armRight.setPosition(0.7);
-                armLeft.setPosition(0.7);
+                armRight.setPosition(0.85);
+                armLeft.setPosition(0.85);
 
                 wristLeft.setPosition(0.92);
                 wristRight.setPosition(0.92);
@@ -212,13 +223,20 @@ public class Intake {
 
 
     public void pickup(){
+        if (inTransfer1 || inTransfer2) return;
         pickupTimer.resetTimer();
         isPickup = true;
         setArmPose(IntakeArmPose.SAMPLE_PICKUP);
     }
 
     public boolean isSlideAtInitial(){
-        return Math.abs(intakeSlide.getCurrentPosition()) < 15;
+        return Math.abs(intakeSlide.getCurrentPosition()) < 25;
+    }
+
+
+    public void rumbleGamepad(){
+        if (gamepad == null) return;
+        gamepad.rumble(100);
     }
 
 
@@ -248,7 +266,7 @@ public class Intake {
         }
 
 
-        if (inTransfer1 && transferTimer.getElapsedTimeSeconds() > 0.5){
+        if (inTransfer1 && transferTimer.getElapsedTimeSeconds() > 0.4){
             setSlidePose(IntakeSlidePose.INITIAL);
             if (isSlideAtInitial()){
                 inTransfer2 = true;
@@ -259,10 +277,11 @@ public class Intake {
 
         if (inTransfer2){
             linkedOuttake.setClawState(OuttakeArmPose.CLAW_CLOSE);
-            if (transferTimer.getElapsedTimeSeconds() > 0.2){
+            if (transferTimer.getElapsedTimeSeconds() > 0.25){
                 setClawState(IntakeArmPose.CLAW_OPEN);
                 setSlidePose(IntakeSlidePose.FREE);
                 inTransfer2 = false;
+                rumbleGamepad();
             }
         }
 

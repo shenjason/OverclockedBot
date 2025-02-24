@@ -96,8 +96,8 @@ public class Outtake {
                 bottomSlide.setTargetPosition(600);
                 break;
             case (OuttakeSlidePose.SWITCH):
-                upperSlide.setTargetPosition(75);
-                bottomSlide.setTargetPosition(75);
+                upperSlide.setTargetPosition(200);
+                bottomSlide.setTargetPosition(200);
                 break;
         }
 
@@ -203,7 +203,7 @@ public class Outtake {
 
 
     public boolean canChangeSlidePoseTimed(){
-        return Math.abs(bottomSlide.getCurrentPosition() - bottomSlide.getTargetPosition()) < OuttakeConstants.slide_pose_switch_tolerance || sincePoseSwitch.getElapsedTimeSeconds() > 5;
+        return Math.abs(bottomSlide.getCurrentPosition() - bottomSlide.getTargetPosition()) < OuttakeConstants.slide_pose_switch_tolerance || sincePoseSwitch.getElapsedTimeSeconds() > 3;
     }
 
     public boolean isSlidePose(int pose){

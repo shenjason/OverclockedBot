@@ -28,7 +28,6 @@ public class ManualControl extends LinearOpMode {
     public Intake intake;
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
-    DcMotor lf; DcMotor rf; DcMotor lr; DcMotor rr;
 
     boolean isBpressed; boolean isXpressed; boolean isApressed; boolean isB2pressed;
     boolean isA2pressed; boolean isX2pressed; boolean isYpressed; boolean switching;
@@ -45,7 +44,7 @@ public class ManualControl extends LinearOpMode {
         Mode = true;
 
         outtake = new Outtake(hardwareMap);
-        intake = new Intake(hardwareMap, outtake);
+        intake = new Intake(hardwareMap, outtake, gamepad2);
 
 
 
@@ -62,15 +61,6 @@ public class ManualControl extends LinearOpMode {
 
 
         follower.startTeleopDrive();
-
-        lf = hardwareMap.get(DcMotor.class, "leftFront");
-        lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rf = hardwareMap.get(DcMotor.class, "rightFront");
-        rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lr = hardwareMap.get(DcMotor.class, "leftRear");
-        lr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rr = hardwareMap.get(DcMotor.class, "rightRear");
-        rr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         while (opModeIsActive()) {
@@ -101,8 +91,8 @@ public class ManualControl extends LinearOpMode {
 
 
 
-            if (!gamepad2.dpad_down) isXpressed = false;
-            if (gamepad2.dpad_down && !isXpressed && (outtake.isSlidePose(OuttakeSlidePose.INITIAL) || outtake.isSlidePose(OuttakeSlidePose.SWITCH)) && intake.isSlideAtInitial()) {
+            if (!gamepad2.dpad_up) isXpressed = false;
+            if (gamepad2.dpad_up && !isXpressed && (outtake.isSlidePose(OuttakeSlidePose.INITIAL) || outtake.isSlidePose(OuttakeSlidePose.SWITCH))) {
                 Mode = !Mode;
                 if (Mode){
                     outtake.setOuttakeArmPose(OuttakeArmPose.TRANSFER);
@@ -110,13 +100,21 @@ public class ManualControl extends LinearOpMode {
                 }
                 else {
                     outtake.setOuttakeArmPose(OuttakeArmPose.SPECIMEN_PICKUP);
-                    outtake.setSlidePose(OuttakeSlidePose.INITIAL);
+                    outtake.setSlidePose(OuttakeSlidePose.SWITCH);
                     intake.setArmPose(IntakeArmPose.INACTIVE);
+                    timer.resetTimer();
+                    switching = true;
                 }
 
-                gamepad2.rumble(100);
+                gamepad2.rumble(1000);
+                gamepad1.rumble(1000);
 
                 isXpressed = true;
+            }
+
+            if (timer.getElapsedTimeSeconds() > 1 && switching){
+                outtake.setSlidePose(OuttakeSlidePose.INITIAL);
+                switching = false;
             }
 
 
