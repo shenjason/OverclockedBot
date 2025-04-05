@@ -3,16 +3,16 @@ package Overclocked.Subassemblies;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import Overclocked.Constants.IntakeArmPose;
 import Overclocked.Constants.IntakeConstants;
 import Overclocked.Constants.IntakeSlidePose;
-import Overclocked.Constants.OuttakeArmPose;
 
 
 public class Intake {
@@ -24,26 +24,26 @@ public class Intake {
 
     int armPose; int slidePose; boolean clawState; boolean isReseted; boolean isSlideFree;
 
-    Timer pickupTimer; Timer transferTimer;
+    Timer pickupTimer; Timer transferTimer; Timer autoAngleTimer; Timer detectionTimer; Timer pickupModeTimer;
 
-    boolean canSwitchToDetection; boolean isPickup; boolean inTransfer1; boolean inTransfer2;
+    boolean canSwitchToDetection; boolean isPickup;
+    public boolean allowedToSwitchToDetection;
 
-    public Outtake linkedOuttake;
 
     boolean Detection;
 
-    int override_auto_rotation;
+    int override_auto_rotation; int auto_slide_position;
 
-    Gamepad gamepad;
 
-    public Intake(HardwareMap hardwareMap, Outtake outtake, Gamepad controller){
+    public Intake(HardwareMap hardwareMap){
         hardwareInit(hardwareMap);
         pickupTimer = new Timer();
         transferTimer = new Timer();
+        autoAngleTimer = new Timer();
+        detectionTimer = new Timer();
+        pickupModeTimer = new Timer();
 
-        gamepad = controller;
-
-        linkedOuttake = outtake;
+        allowedToSwitchToDetection = true;
     }
 
     public void hardwareInit(HardwareMap hardwareMap){
@@ -84,7 +84,9 @@ public class Intake {
 
     public void slideEncoderReset(){
         intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeSlide.setTargetPosition(0);
         if (isSlideFree) intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
 
@@ -104,62 +106,60 @@ public class Intake {
     public void setClawState(boolean state){
         clawState = state;
         if (state){
-            claw.setPosition(0.1);
+            claw.setPosition(0.25);//claw open 0.2
             return;
         }
-        claw.setPosition(0.3);
+        claw.setPosition(0.45);//claw close
     }
 
     public void switchClawState(){
         setClawState(!clawState);
     }
 
-    public void slideControl(double power){
-        if (!isSlideFree) return;
+    public boolean slideControl(double power){
+        if (!isSlideFree) return false;
+        double corrected_power = power;
         if (intakeSlide.getCurrentPosition() > IntakeConstants.max_extension_pos) {
-            rumbleGamepad();
-            intakeSlide.setPower(0);
-            return;
+            corrected_power = -Math.abs(power);
+            intakeSlide.setPower(corrected_power);
+            return false;
         }
-        intakeSlide.setPower(power);
-    }
-
-    public void transfer(){
-        inTransfer1 = true;
-        setArmPose(IntakeArmPose.TRANSFER);
-        linkedOuttake.setClawState(OuttakeArmPose.CLAW_OPEN);
-        transferTimer.resetTimer();
+        intakeSlide.setPower(corrected_power);
+        return true;
     }
 
     public void setWristMidAngle(double angle){
-       double pos = IntakeConstants.deg0_wrist_pos + (angle / 180) * (IntakeConstants.deg180_wrist_pos - IntakeConstants.deg0_wrist_pos);
-       wristMid.setPosition(pos);
+        if (isPickup) return;
+        double pos = IntakeConstants.deg0_wrist_pos + (angle / 180) * (IntakeConstants.deg180_wrist_pos - IntakeConstants.deg0_wrist_pos);
+        wristMid.setPosition(pos);
     }
 
 
     public void setSlidePose(int pose){
         slidePose = pose;
-        isSlideFree = (slidePose == IntakeSlidePose.FREE);
+        isSlideFree = (slidePose == IntakeSlidePose.FREE || slidePose == IntakeSlidePose.INITIAL || slidePose == IntakeSlidePose.AUTO_PICKUP);
         switch (pose){
-            case (IntakeSlidePose.INITIAL):
-                intakeSlide.setTargetPosition(-25);
-                break;
             case (IntakeSlidePose.AUTO_PICKUP):
-                intakeSlide.setTargetPosition(400);
-                break;
+            case (IntakeSlidePose.INITIAL):
             case (IntakeSlidePose.FREE):
                 intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 intakeSlide.setPower(0);
                 break;
+            case (IntakeSlidePose.TRANSFER):
+                intakeSlide.setTargetPosition(20);
+                break;
+            case (IntakeSlidePose.AUTO_POSITION):
+                intakeSlide.setTargetPosition(auto_slide_position);
+                break;
         }
         if (!isSlideFree){
-            intakeSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
             if (intakeSlide.getCurrentPosition() < intakeSlide.getTargetPosition()){
                 intakeSlide.setPower(IntakeConstants.slide_extension_power);
             }else{
                 intakeSlide.setPower(IntakeConstants.slide_retraction_power);
             }
+
+            intakeSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
@@ -170,50 +170,53 @@ public class Intake {
 
         switch (pose){
             case (IntakeArmPose.INACTIVE):
-                armRight.setPosition(0.1);
-                armLeft.setPosition(0.1);
+                armRight.setPosition(0.08);
+                armLeft.setPosition(0.08);
 
-                wristLeft.setPosition(0.83);
-                wristRight.setPosition(0.83);
+                wristLeft.setPosition(0.9);
+                wristRight.setPosition(0.9);
 
                 wristMid.setPosition(0.484);
 
                 setClawState(IntakeArmPose.CLAW_OPEN);
                 break;
             case (IntakeArmPose.TRANSFER):
-                armRight.setPosition(0.1);
-                armLeft.setPosition(0.1);
+                armRight.setPosition(0.55);
+                armLeft.setPosition(0.55);
 
-                wristLeft.setPosition(1);
-                wristRight.setPosition(1);
+                wristLeft.setPosition(0.2);
+                wristRight.setPosition(0.2);
 
                 wristMid.setPosition(0.367);
 
-//                setClawState(IntakeArmPose.CLAW_CLOSE);
                 break;
             case (IntakeArmPose.DETECTION):
-                armRight.setPosition(0.7);
-                armLeft.setPosition(0.7);
+                armRight.setPosition(0.53);
+                armLeft.setPosition(0.53);
 
                 wristLeft.setPosition(1);
                 wristRight.setPosition(1);
 
-                wristMid.setPosition(0.367);
+//                wristMid.setPosition(IntakeConstants.deg0_wrist_pos);
 
-//                setClawState(IntakeArmPose.CLAW_OPEN);
                 break;
             case (IntakeArmPose.SAMPLE_PICKUP):
-                armRight.setPosition(0.85);
-                armLeft.setPosition(0.85);
 
-                wristLeft.setPosition(0.92);
-                wristRight.setPosition(0.92);
+                armRight.setPosition(0.69);
+                armLeft.setPosition(0.69);
 
-//                wristMid.setPosition(0.367);
+                wristLeft.setPosition(0.93);
+                wristRight.setPosition(0.93);
 
                 setClawState(IntakeArmPose.CLAW_OPEN);
                 break;
+            case (IntakeArmPose.SWEEP):
+                armRight.setPosition(0.72);
+                armLeft.setPosition(0.72);
 
+                wristLeft.setPosition(0.8);
+                wristRight.setPosition(0.8);
+                break;
         }
     }
 
@@ -221,9 +224,7 @@ public class Intake {
         override_auto_rotation = override;
     }
 
-
     public void pickup(){
-        if (inTransfer1 || inTransfer2) return;
         pickupTimer.resetTimer();
         isPickup = true;
         setArmPose(IntakeArmPose.SAMPLE_PICKUP);
@@ -233,15 +234,25 @@ public class Intake {
         return Math.abs(intakeSlide.getCurrentPosition()) < 25;
     }
 
-
-    public void rumbleGamepad(){
-        if (gamepad == null) return;
-        gamepad.rumble(100);
+    public void autoSetSlidePos(int pos){
+        allowedToSwitchToDetection = false;
+        auto_slide_position = pos;
+        setSlidePose(IntakeSlidePose.AUTO_POSITION);
     }
 
 
-    public void update(boolean Mode){
-        if (!magSwitch.isPressed()) isReseted = false;
+    public void update(Telemetry telemetry){
+        if (!magSwitch.isPressed()){
+            isReseted = false;
+            if (isSlidePose(IntakeSlidePose.INITIAL)){
+                intakeSlide.setPower(-1);
+            }
+        }else{
+            if (isSlidePose(IntakeSlidePose.INITIAL)){
+                intakeSlide.setPower(0);
+            }
+        }
+
         if (magSwitch.isPressed() && !isReseted){
             slideEncoderReset();
             isReseted = true;
@@ -256,7 +267,7 @@ public class Intake {
         }
 
 
-        if (Mode && intakeSlide.getCurrentPosition() > IntakeConstants.detection_switch_tick_pos && canSwitchToDetection){
+        if (intakeSlide.getCurrentPosition() > IntakeConstants.detection_switch_tick_pos && canSwitchToDetection && allowedToSwitchToDetection){
             setArmPose(IntakeArmPose.DETECTION);
             canSwitchToDetection = false;
         }
@@ -266,36 +277,23 @@ public class Intake {
         }
 
 
-        if (inTransfer1 && transferTimer.getElapsedTimeSeconds() > 0.4){
-            setSlidePose(IntakeSlidePose.INITIAL);
-            if (isSlideAtInitial()){
-                inTransfer2 = true;
-                inTransfer1 = false;
-                transferTimer.resetTimer();
-            }
-        }
-
-        if (inTransfer2){
-            linkedOuttake.setClawState(OuttakeArmPose.CLAW_CLOSE);
-            if (transferTimer.getElapsedTimeSeconds() > 0.25){
-                setClawState(IntakeArmPose.CLAW_OPEN);
-                setSlidePose(IntakeSlidePose.FREE);
-                inTransfer2 = false;
-                rumbleGamepad();
-            }
-        }
-
         if (Detection){
-            if (override_auto_rotation == 0){
-                setWristMidAngle(0); // REPLACED
-            }else if (override_auto_rotation == 2){
-                setWristMidAngle(90);
-            } else {
-                setWristMidAngle(0);
+            if (override_auto_rotation != 0){
+                switch (override_auto_rotation){
+                    case 1:
+                        setWristMidAngle(0);
+                        break;
+                    case 2:
+                        setWristMidAngle(45);
+                        break;
+                    case 3:
+                        setWristMidAngle(-45);
+                        break;
+                    case 4:
+                        setWristMidAngle(90);
+                }
             }
         }
 
     }
-
-
 }

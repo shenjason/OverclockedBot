@@ -6,4 +6,5 @@ public class OuttakeSlidePose {
     public static final int SAMPLE_SCORE = 2;
     public static final int SPECIMEN_SCORE_AUTO = 3;
     public static final int SWITCH = 4;
+    public static final int LOW_BASKET = 5;
 }
