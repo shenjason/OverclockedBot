@@ -1,4 +1,0 @@
-org.firstinspires.ftc.teamcode.test.TeamCode-androidTest-0 D:\Jason\OverclockedBot\TeamCode\build\generated\res\resValues\androidTest\debug
-org.firstinspires.ftc.teamcode.test.TeamCode-mergeDebugAndroidTestResources-1 D:\Jason\OverclockedBot\TeamCode\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-org.firstinspires.ftc.teamcode.test.TeamCode-mergeDebugAndroidTestResources-2 D:\Jason\OverclockedBot\TeamCode\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-org.firstinspires.ftc.teamcode.test.TeamCode-debugAndroidTest-3 D:\Jason\OverclockedBot\TeamCode\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

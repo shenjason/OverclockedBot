@@ -1,0 +1,618 @@
+
+============================================================
+PAGE 1
+============================================================
+Alpha Robotics Engineering Portfolio
+Team 23365
+First Tech Challenge
+Team in Socal, Irvine
+
+============================================================
+PAGE 2
+============================================================
+Meet the Teams
+Start
+We firmly
+believe that the
+from
+foundation of
+2023
+any successful
+robotics project
+Seven
+lies in the the
+Team
+collaborative
+members
+spirit that
+this year drives us to
+innovate and
+improve.
+Jason Z Coach Zhaolong
+Team Member Categories
+Jason Z Robert L Maximus X
+CAD and
+Maximus Zonglin L
+mJeacsohna Sn i c a lT eam
+Team
+logo
+John C 11th
+Captain:
+Maximus X
+Jason S
+8th
+11th
+Jason Z 8th Jason S Coach Steve Jason S
+Zhaolong
+grades
+Outreach
+Mentor
+Steve L 8th
+Coach Zhaolong
+Robert L Andy
+Our coach has John
+been working in 9th
+Andy S Steve L John C
+R&D
+engineering
+companies for
+Programming
+more than 10
+Jason S 2
+years.
+Andy S 9th
+1
+
+============================================================
+PAGE 3
+============================================================
+Connections with professions and other teams
+Mr Xiao ( scientist and nuclear fusion expert from
+China )
+We asked Mr Xiao some questions about our robot’s
+motors selection and vision senses equipment. He gave
+us some solutions about our old robot’s issues.
+（
+Team 21980 Bread Pandas )
+We organized a online meeting which asked them
+about how to improve our drivetrain and linear
+slides” speed. They told us that in addition to
+reduce the robot weight, we should use a servo
+power module which can make motors’ speed
+increase from 435 rpm to >600 rpm.
+Game Strategy
+Similar with other team, at the
+beginning we just score the
+preload specimen. Then push
+those three sample to the
+5 specimens
+observation zone. Finally we just
+use our outtake to score the rest
+4 specimens and do parking. autonomous
+During teleop, we basically
+focused on specimen. ( our
+9-11 specimens
+robot’s design is better for
+specimen ) We grab the red/blue
+15-18 samples
+sample in the middle. ( If there
+is no red/blue sample or they are
+too far from us. We will do
+3 points for
+basket. We can do both sides
+during the match.
+parking
+During endgame, we just do
+parking or level 0 hang.
+2
+
+============================================================
+PAGE 4
+============================================================
+Engineering Process
+Identifying and Brainstorming
+Prototype and Design
+Testing and Improve
+Goals of our team this year
+1 Go to state championship this year (already achieved
+this)
+2 Help new members learn engineering and
+programming skills
+3 Become top 100 ftc team in the world
+3
+
+============================================================
+PAGE 5
+============================================================
+How we made & reach our goals
+In order to achieve our goals, we first writing those goals down. We
+reached our goals by been tolerant and inclusive. Our team went to
+many robotics and community campaign this year which we studied a lot
+during these.
+We studied from other teams We saw FTC team Axle Otle
+in socal during OC Makers during a engineering
+Faire. We found out the gap exhibition. Their robot;s
+between those teams and us
+suspension device is really
+and foundee out the ways to
+worth learning.
+improve our robot
+Fundraising
+Our mentor’s We apply funding Self-Financed
+company sponsor by sending email $13,000
+$5000 dollars to those (71.4%)
+this year. engineering
+(27.47%) company. We get
+$200 dollars for
+register. (1.09%)
+
+============================================================
+PAGE 6
+============================================================
+Construction Process 1 ( Sample Bot Robot 1 )
+First Generation: We used a linear slide
+Picture of Our First Robot
+system, with a vertical slide that can bring
+things up high and a pivoting slide that can
+reach things in the submersibles. We
+designed a linkage brick that connects our
+reaching slide and claw to the main vertical
+slide pair. The linkage brick is connected to
+the vertical slide pair by two servos allowing
+it to pivot up and down. When the linkage
+brick wasn’t ready yet, our coach helped us
+create a non custom one using Gobilda parts.
+(We finished building our first robot before
+meet 0.)
+Issues:
+Linkage ack and Our Linear Slides
+The arm was too heavy so the motor of
+the linear slides could not lift it up.
+(weight)
+The claw could not grip well (claw design)
+The connection lines that connect the
+control hub and the electronic component
+were too messy and were easily damaged
+and disconnected. (cable management)
+Couldn't hang(endgame)
+Our team’s number plate does not meet
+tournament requirements. (number plate)
+Solutions:
+Overall, the design failed.
+We thought that we needed to build a
+robot with two sets of linear slide pairs
+and better cable management. One Two Stage Linear
+Slides system on
+slide can go horizontal to grab samples.
+our second robot
+The other slides can go vertically and
+and we add the
+place the sample into the basket.
+rubber at the end
+(higher efficiency and less workload of the claw
+for each part)
+Designed new claws and added rubber
+Our new team
+at the end of each claw for grip
+number card
+Redesigned number plate and holder
+and it’s CAD
+for it. design cover
+Also new team number cards
+4
+
+============================================================
+PAGE 7
+============================================================
+Construction Process 2 ( Sample Bot Robot 2 )
+Picture of our second robot
+We started building our second robot after meet 0.
+We thought that scoring samples would be easier and
+quicker, so our second robot mainly scores samples.
+We spent nearly 14 hours every week on robotics.
+After three weeks of hard work, our team finally
+finished building our second robot. Our second robot
+uses four 312 mph motors to power our drivetrain and
+mecanum wheels(can strafe). For our linear slides, we
+use two 435 mph motors for the vertical linear slide
+pair and one 1080 mph for the horizontal pair(show in
+image below). A U-channel is connected to the
+vertical linear slide pair with a hook(bottom of
+U-channel) and a specimen claw(top of u channel) that
+clamps onto specimens. The robot performed well in
+Strengths and Weaknesses
+meetings 2 and 3. Our team created the highest
+match score with Team Incineers ( 21982 ) which is 😀 Using two stages linear slides can score
+315 in regional final. We can score an average of 12
+the point really fast (efficiency)
+samples during teleop in our practice sessions and
+😀 claw can precisely pick up samples that
+scored the highest of 14 samples during ILT 1. We
+you aim for (precision)
+were satisfied with the result. However, we know
+Disadvantages :
+that this isn’t the best that we can do. We still need
+☹Our robot and linear slides were too
+to improve our robot.
+heavy so the speed was very low compared
+to other teams. (Weight and speed)
+☹horizontal claw limited. Cannot reach far
+Innovative Designs:
+enough into the submersible, limited
+The upper claw
+The upper claw, which we use to drop samples, is selection of samples
+attached to the inside of the vertical linear slide ☹center of mass not low enough, causes
+pair by a two servos and two arms. People usually
+little woubling during moving and reaching
+approach this claw using only two “fingers”, but
+slide upwards
+we use 4 as shown in the picture. This is similar to
+our hands since we have multiple fingers to grab ☹robot is too bulky, making moving in
+things for more stability and control. So even if small places difficult(size)
+the upper two “fingers” don’t clamp onto the
+sample, the lower two “fingers” can prevent the
+sample from dropping out of the claw and still
+hold on to it.
+The intake claw
+Most teams that use passive intake approach the Upper Claw
+lower claw using super small claws. These small
+claws are good at grabbing from places where 2+
+samples are consecutively touching each other’s
+faces, but they require higher precision in placing
+the claw which is hard for drivers. Our claw
+doesn’t need the driver to be super precise
+Lower Claw
+because it is larger, and this makes our sample
+grabbing
+pickup time quicker and our drivers can have
+Sample
+lesser errors which creates confidence. They
+work efficiently in almost all cases.
+6
+
+============================================================
+PAGE 8
+============================================================
+Construction Process 3 ( Specimen Bot Robot #3 )
+Building Purpose and process:
+Our third robot, which is the robot we currently use. We started to built our
+third robot few weeks before the ILT 1 because we realized that our second
+robot had many weaknesses and will sure to fail in State Championship.
+Because there were only one more month from State Championship.So every
+teammates in our team were working really hard. We worked on robotics
+minimum of 20 hours every week. After 4 weeks of hard working, we finally
+finished our robot and for the rest 2 weeks, we interpreted our robot and
+testing autonomous. Although we were really tired, however, we actually felt
+the significance of building robot and and the joy of successfully completing a
+goal.
+Key Features of Our Current Robot ( Specs about each part )
+Top View
+Custom Drivetrain: Our teammate
+designed a custom drivetrain on onshape
+which used two inner plates and two
+outer plates. It is mostly cover by
+triangle patterns.
+Inside the drivetrain: Inside our inner
+plates, the battery pack is on the front
+which is covered by frame shown in the top Back View
+view picture. We attached four 312 RMP
+motors for our wheels at the very bottom
+thi
+of our drivetrain. Above these four motors,
+we put two 1150 RPM motors for our
+outtake linear slides. Above all these
+gobuilda motors, there is a chamber which
+connects the scroll wheel and tension line
+Side rear view
+for our outtake linear slides. (shown in the
+top view picture) These things were
+separated by some steels and metal pipes.
+(Back view) In order to avoid the sample
+fall into our robot, we designed a tlt board
+to avoid this happens.
+7
+
+============================================================
+PAGE 9
+============================================================
+Robot#3 Page 2
+Drivetrain (continue from the front
+Odometry Resetter
+page) :We designed two PLA plates to
+protect all the motors and wires. This
+year we used two Odometry for our
+auto. ( One horizontal and one
+vertical ) A really special thing we
+put on our drivetrain is a slide
+encoder resetter which helps us test
+our slides reset position before the
+match started.
+Drivetrain (side): At the side
+of our drivetrain, we adhesion
+the team number plates. We put
+control hub on the left side
+between two [lates and
+expansion hub on the right side.
+Vertical ( outtake ) Slides: We
+used eight 30cm Misumi slides (
+four on each side ) which
+attached by the linkers.
+Different with some other teams,
+we put those slides inside our
+inner plate. There are two custom
+designed linkers which we put two
+Axone servo into it. It connects
+with our outtake system.
+Horizontal ( Intake ) Slides:
+We used eight 20cm Misumi
+slides ( four on each side)
+which attached between the
+inner plates and outerplates.
+8
+
+============================================================
+PAGE 10
+============================================================
+Robot#3 Page 3
+Camera: Our claw can fully
+automatically grab the sample
+because of the camera’s
+identification.
+Servo Power Module
+We attached our servo extension
+wires to the servo power module
+which increases the speed of the
+servos and motors. Although this
+makes our wiring more difficult,
+however, we thought it is worthy.
+Wiring
+outtake: We using plastic pipes to
+cover all the wires. There is a
+hole on our outtake system which
+we can put all wires pass through
+it. One side of the pipe were tied
+on the top of our side plate and
+the other side is attaches on the
+bottom of outtake.
+Intake: Similar methods with
+outtake.
+Drivetrain: We Classifying the
+wires according to the direction
+and position of the line.Then use
+zip tiet to tied them on the
+plates.
+Strengths
+* Really small (14.5 *12 inches) and really fast speed.
+* Fast intake and outtake.
+* Can score both specimen and sample really fast.
+* Three axis intake and camera make our robot grab the sample really
+efficient.
+* Two-axis outtake make our robot score the sample to the basket or
+specimen to the chamber really stabilized and efficient.
+9
+
+============================================================
+PAGE 11
+============================================================
+Robot#3 Page 4 Most Innovative Design
+Outtake System: Our outtake is a two-axis
+system, which we can rotate our arm and claw
+which different with other teams who can only
+rotate the arm. We used two Axone mini servos
+for our outtake arm and three gobuilda torque
+servos for our claw and upper arm. When our
+robot want to grab the specimen from the
+observation zone, our outtake arm first swivel to
+the back of our machine and grip the specimen.
+After this, both of our arm and claw will rotate
+180 degrees (change to original position)and push
+to specimen on the higher chamber.
+Intake Claw: Our outtake claw design
+is based on the principle of gears
+interlocking and rotating. There is a
+screw hole between two parts of our
+claw so we can easily attach them.
+They are small but really sharp and
+can open really wide so we can grab
+the sample really tied and accurate.
+Outtake Claw: Our outtake claw is similar
+to out outtake claw because they have
+same design concept. We just made the
+Intake System : Out intake system is a
+clamping part shorter and more rounded
+three axis system which we can grab
+so it is not easily been broken.
+the sample at every side and height.
+When we want to grab the samples in
+the middle, we extend the intake slides
+and the intake system will rotate out.
+(first rotation) Our claw will rotate any
+degree or side to best fit the sample
+placement. (second rotation) After
+these, the middle part of our intake will
+rotate down in order to make our claw
+grab the sample. (third rotation) We
+designed a linker which connect with
+our intake slides. We use two Axone
+mini servos for our back part, two
+gobuildapeed servo for our middle part
+and one torque for our claw.
+10
+
+============================================================
+PAGE 12
+============================================================
+Programming
+Two Wheel Odometry
+In order to achieve a reliable Perpendicular Wheel
+Determines Y displacement
+autonomous we need to have some
+sort of localization so that our
+bot knows where it is on the field. IMU sensor
+Determines Heading
+For this bot we decided to use a
+combination of two wheel
+odometry and IMU sensor to Parallel Wheel
+Determines X
+provide accurate localization
+displacement
+during autonomous.
+Autonomous Overview
+Hook Preload
+The goal for our autonomous is to score 5
+then hook the
+specimens into the high rung, to achieve that
+other 4
+we use Pedro Pathing a motion planning library
+developed for FTC which allows us to plan out
+our path efficiently for a 5 specimen auto.
+(Path show on the right)
+Robot specimen
+pickup
+Push Sample to
+Observation
+Zone
+TeleOp Controls
+Gamepad 1 Gamepad 2
+Switch Outtake
+Pick up preset position
+Speed Control
+Hold for slower speed
+Mode switch
+Transfer
+Change Claw
+angle
+Drive Control Heading Control
+Y Stick - Drives forward/backward X Stick - Rotates robot Intake Slide Control
+counterclockwise/clockwise Y Stick - Extends/Retracts intake slide
+X Stick - Strafe left/right
+11
+
+============================================================
+PAGE 13
+============================================================
+Team Spirit
+Our FTC robotics team embodies the spirit of collaboration, innovation, and
+determination. Every challenge we face becomes an opportunity to learn and grow, as
+each team member contributes their unique skills and perspectives. From brainstorming
+solutions to fine-tuning our robot, we foster an environment where creativity and
+teamwork thrive. With every competition, we not only aim to perform at our best but
+also to inspire and support each other, building lasting friendships and a shared
+commitment to excellence. The true strength of our team lies in our collective drive to
+overcome obstacles, adapt to new ideas, and celebrate both our successes and the
+lessons we learn along the way.
+Match Performance and
+Season Progress
+Meet 0
+We used our first robot .
+2 win 3 lost
+We started adapting to the pace of the
+game and found out the ways to improve
+our robot
+Meet1 and Meet 2
+We used our second robot on these 2
+matches.
+Meet 1: 3 win 2 lost
+Meet 2 :4 win 1 lost
+We created the event highest score at that
+time with team 21980（ Bread Pandas ) 248
+points
+Meet 3
+We won all 5 matches
+We learned a lot by talking with other
+team about their design and game
+strategy. We recognized we must
+improve our design
+ILT 1
+We won all the matches
+Our team is the winning alliance.
+Design Award 1st place
+Advance to higher stage
+Created the event highest score with team
+21982 which is 315 points.
+12
+
+============================================================
+PAGE 14
+============================================================
+Outreach
+Orange County makers faire:
+It’s a exhibition of engineering
+and robotics. We attend this
+event and show visitors our robot
+and team information. Through
+this event, our team members
+saw lots of cool things from
+other people and learned from
+colleges, hobbyist, and local
+businesses.
+Network
+Youtube links Instagram Youtube
+www.youtube.com/@AlphaRoboticsFTC23365
+Instagram name:
+alpha-robotics 23365 ( total
+of 8k views now )
+Facebook name: Maximus Xiao
+Email:
+Contact@ftcalpharoboticsftc2
+3365?=
+Other events we attend
+Three scrimmage matches
+#1 Held by Axle Otis (Jan 18th)
+#2 Held by Watermelon Why
+(February 7th)
+#3 Held by TechAttack
+( February 22nd)
+Future Plans
+We will continue to participate in the FTC competition and encourage other teenagers to
+become a member of the community. We want to go to worlds next year and make our team
+consistently go to worlds all the years after, inspiring hundreds of teenagers. We argued
+that experience and spirit of perseverance will directly make us success.
+13
+
+============================================================
+PAGE 15
+============================================================
+Impressions and Conclusions
+Our Impressions Conclusions:
+In conclusion, our robotics team’s
+All of us learned and improved a lot
+engineering portfolio reflects not only
+during this year’s work and
+the technical expertise and innovation
+competition. Our team’s core strength
+we bring to every project, but also our
+lies in our unwavering perseverance
+commitment to continuous learning and
+and relentless drive for innovation.
+improvement. Through collaborative
+We face each obstacle with a
+problem-solving, creative design, and
+determination to push through,
+persistent iteration, we’ve transformed
+knowing that every setback is just
+challenges into opportunities, pushing
+another opportunity to improve.
+the boundaries of what we can achieve.
+Whether it's overcoming technical
+This portfolio stands as a testament to
+challenges or refining our designs, we
+the hard work, resilience, and teamwork
+approach each task with creative
+that have driven our success.
+thinking and an open mind, always
+eager to try new solutions.
+Team motto: Always remember
+to fall asleep with a dream and
+wake u with a purpose.
+Rescruit for new team members
+We will continue to participate in
+the FTC competition and
+encourage other teenagers to
+become a member of the
+community.
+We will recruit new team
+members by posting posters in
+Pictures of our team during ILT
+our school
+14
